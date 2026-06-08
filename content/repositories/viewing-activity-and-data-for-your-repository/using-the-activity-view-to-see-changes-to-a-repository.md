@@ -1,4 +1,4 @@
----
+(**)---
 title: Using the activity view to see changes to a repository
 intro: You can use the activity view to see a detailed history of changes to your repository.
 versions:
