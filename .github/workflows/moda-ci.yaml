@@ -1,4 +1,4 @@
-name: docs-internal Moda CI
+md name: docs-internal Moda CI
 
 # More info on CI actions setup can be found here:
 # https://github.com/github/ops/blob/master/docs/playbooks/build-systems/moving-moda-apps-from-bp-to-actions.md
