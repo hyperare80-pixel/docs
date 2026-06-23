@@ -15,6 +15,7 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "assigned",
             "enum": [
               "assigned",
               "created",
@@ -22,8 +23,7 @@
               "subscribed",
               "repos",
               "all"
-            ],
-            "default": "assigned"
+            ]
           }
         },
         {
@@ -33,12 +33,12 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "open",
             "enum": [
               "open",
               "closed",
               "all"
-            ],
-            "default": "open"
+            ]
           }
         },
         {
@@ -57,12 +57,12 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "created",
             "enum": [
               "created",
               "updated",
               "comments"
-            ],
-            "default": "created"
+            ]
           }
         },
         {
@@ -72,11 +72,11 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "desc",
             "enum": [
               "asc",
               "desc"
-            ],
-            "default": "desc"
+            ]
           }
         },
         {
@@ -85,8 +85,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "type": "string",
-            "format": "date-time"
+            "type": "string"
           }
         },
         {
@@ -1196,7 +1195,7 @@
                   },
                   "type": {
                     "title": "Issue Type",
-                    "description": "The type of issue.",
+                    "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                     "type": [
                       "object",
                       "null"
@@ -3022,6 +3021,7 @@
                           "enum": [
                             "text",
                             "single_select",
+                            "multi_select",
                             "number",
                             "date"
                           ]
@@ -3072,6 +3072,36 @@
                             "name",
                             "color"
                           ]
+                        },
+                        "multi_select_options": {
+                          "description": "Details about the selected options",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "description": "Unique identifier for the option.",
+                                "type": "integer",
+                                "format": "int64"
+                              },
+                              "name": {
+                                "description": "The name of the option",
+                                "type": "string"
+                              },
+                              "color": {
+                                "description": "The color of the option",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "color"
+                            ]
+                          }
                         }
                       },
                       "required": [
@@ -3160,6 +3190,7 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "assigned",
             "enum": [
               "assigned",
               "created",
@@ -3167,8 +3198,7 @@
               "subscribed",
               "repos",
               "all"
-            ],
-            "default": "assigned"
+            ]
           }
         },
         {
@@ -3178,12 +3208,12 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "open",
             "enum": [
               "open",
               "closed",
               "all"
-            ],
-            "default": "open"
+            ]
           }
         },
         {
@@ -3211,12 +3241,12 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "created",
             "enum": [
               "created",
               "updated",
               "comments"
-            ],
-            "default": "created"
+            ]
           }
         },
         {
@@ -3226,11 +3256,11 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "desc",
             "enum": [
               "asc",
               "desc"
-            ],
-            "default": "desc"
+            ]
           }
         },
         {
@@ -3239,8 +3269,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "type": "string",
-            "format": "date-time"
+            "type": "string"
           }
         },
         {
@@ -4317,7 +4346,7 @@
                   },
                   "type": {
                     "title": "Issue Type",
-                    "description": "The type of issue.",
+                    "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                     "type": [
                       "object",
                       "null"
@@ -6143,6 +6172,7 @@
                           "enum": [
                             "text",
                             "single_select",
+                            "multi_select",
                             "number",
                             "date"
                           ]
@@ -6193,6 +6223,36 @@
                             "name",
                             "color"
                           ]
+                        },
+                        "multi_select_options": {
+                          "description": "Details about the selected options",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "description": "Unique identifier for the option.",
+                                "type": "integer",
+                                "format": "int64"
+                              },
+                              "name": {
+                                "description": "The name of the option",
+                                "type": "string"
+                              },
+                              "color": {
+                                "description": "The color of the option",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "color"
+                            ]
+                          }
                         }
                       },
                       "required": [
@@ -6291,12 +6351,12 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "open",
             "enum": [
               "open",
               "closed",
               "all"
-            ],
-            "default": "open"
+            ]
           }
         },
         {
@@ -6336,6 +6396,15 @@
           }
         },
         {
+          "name": "issue_field_values",
+          "description": "<p>A comma-separated list of issue field filters in <code>field_slug:value</code> format.\nOnly issues matching all specified field values are returned.\nRequires issue fields to be enabled for the repository. Issue fields are\nnot available for user-owned repositories, and field availability for\norganization-owned public repositories depends on the organization's\nvisibility settings. For example, <code>priority:Urgent,severity:High</code> filters\nissues where the <code>priority</code> field is <code>Urgent</code> AND the <code>severity</code> field is\n<code>High</code>.</p>",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
           "name": "labels",
           "description": "<p>A list of comma separated label names. Example: <code>bug,ui,@high</code></p>",
           "in": "query",
@@ -6351,12 +6420,12 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "created",
             "enum": [
               "created",
               "updated",
               "comments"
-            ],
-            "default": "created"
+            ]
           }
         },
         {
@@ -6366,11 +6435,11 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "desc",
             "enum": [
               "asc",
               "desc"
-            ],
-            "default": "desc"
+            ]
           }
         },
         {
@@ -6379,8 +6448,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "type": "string",
-            "format": "date-time"
+            "type": "string"
           }
         },
         {
@@ -7357,7 +7425,7 @@
                   },
                   "type": {
                     "title": "Issue Type",
-                    "description": "The type of issue.",
+                    "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                     "type": [
                       "object",
                       "null"
@@ -9183,6 +9251,7 @@
                           "enum": [
                             "text",
                             "single_select",
+                            "multi_select",
                             "number",
                             "date"
                           ]
@@ -9233,6 +9302,36 @@
                             "name",
                             "color"
                           ]
+                        },
+                        "multi_select_options": {
+                          "description": "Details about the selected options",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "description": "Unique identifier for the option.",
+                                "type": "integer",
+                                "format": "int64"
+                              },
+                              "name": {
+                                "description": "The name of the option",
+                                "type": "string"
+                              },
+                              "color": {
+                                "description": "The color of the option",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "color"
+                            ]
+                          }
                         }
                       },
                       "required": [
@@ -9367,9 +9466,9 @@
               "isRequired": true
             },
             {
-              "type": "string or number",
+              "type": "string or number or array",
               "name": "value",
-              "description": "<p>The value to set for the field</p>",
+              "description": "<p>The value to set for the field. For multi-select fields, provide an array of option names.</p>",
               "isRequired": true
             }
           ]
@@ -10322,7 +10421,7 @@
                 },
                 "type": {
                   "title": "Issue Type",
-                  "description": "The type of issue.",
+                  "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                   "type": [
                     "object",
                     "null"
@@ -12148,6 +12247,7 @@
                         "enum": [
                           "text",
                           "single_select",
+                          "multi_select",
                           "number",
                           "date"
                         ]
@@ -12198,6 +12298,36 @@
                           "name",
                           "color"
                         ]
+                      },
+                      "multi_select_options": {
+                        "description": "Details about the selected options",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Unique identifier for the option.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "name": {
+                              "description": "The name of the option",
+                              "type": "string"
+                            },
+                            "color": {
+                              "description": "The color of the option",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "color"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -13246,7 +13376,7 @@
                 },
                 "type": {
                   "title": "Issue Type",
-                  "description": "The type of issue.",
+                  "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                   "type": [
                     "object",
                     "null"
@@ -15072,6 +15202,7 @@
                         "enum": [
                           "text",
                           "single_select",
+                          "multi_select",
                           "number",
                           "date"
                         ]
@@ -15122,6 +15253,36 @@
                           "name",
                           "color"
                         ]
+                      },
+                      "multi_select_options": {
+                        "description": "Details about the selected options",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Unique identifier for the option.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "name": {
+                              "description": "The name of the option",
+                              "type": "string"
+                            },
+                            "color": {
+                              "description": "The color of the option",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "color"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -16141,7 +16302,7 @@
                 },
                 "type": {
                   "title": "Issue Type",
-                  "description": "The type of issue.",
+                  "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                   "type": [
                     "object",
                     "null"
@@ -17967,6 +18128,7 @@
                         "enum": [
                           "text",
                           "single_select",
+                          "multi_select",
                           "number",
                           "date"
                         ]
@@ -18017,6 +18179,36 @@
                           "name",
                           "color"
                         ]
+                      },
+                      "multi_select_options": {
+                        "description": "Details about the selected options",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Unique identifier for the option.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "name": {
+                              "description": "The name of the option",
+                              "type": "string"
+                            },
+                            "color": {
+                              "description": "The color of the option",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "color"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -18183,9 +18375,9 @@
               "isRequired": true
             },
             {
-              "type": "string or number",
+              "type": "string or number or array",
               "name": "value",
-              "description": "<p>The value to set for the field</p>",
+              "description": "<p>The value to set for the field. For multi-select fields, provide an array of option names.</p>",
               "isRequired": true
             }
           ]
@@ -19140,7 +19332,7 @@
                 },
                 "type": {
                   "title": "Issue Type",
-                  "description": "The type of issue.",
+                  "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                   "type": [
                     "object",
                     "null"
@@ -20966,6 +21158,7 @@
                         "enum": [
                           "text",
                           "single_select",
+                          "multi_select",
                           "number",
                           "date"
                         ]
@@ -21016,6 +21209,36 @@
                           "name",
                           "color"
                         ]
+                      },
+                      "multi_select_options": {
+                        "description": "Details about the selected options",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Unique identifier for the option.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "name": {
+                              "description": "The name of the option",
+                              "type": "string"
+                            },
+                            "color": {
+                              "description": "The color of the option",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "color"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -21304,6 +21527,7 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "assigned",
             "enum": [
               "assigned",
               "created",
@@ -21311,8 +21535,7 @@
               "subscribed",
               "repos",
               "all"
-            ],
-            "default": "assigned"
+            ]
           }
         },
         {
@@ -21322,12 +21545,12 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "open",
             "enum": [
               "open",
               "closed",
               "all"
-            ],
-            "default": "open"
+            ]
           }
         },
         {
@@ -21346,12 +21569,12 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "created",
             "enum": [
               "created",
               "updated",
               "comments"
-            ],
-            "default": "created"
+            ]
           }
         },
         {
@@ -21361,11 +21584,11 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "desc",
             "enum": [
               "asc",
               "desc"
-            ],
-            "default": "desc"
+            ]
           }
         },
         {
@@ -21374,8 +21597,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "type": "string",
-            "format": "date-time"
+            "type": "string"
           }
         },
         {
@@ -22449,7 +22671,7 @@
                   },
                   "type": {
                     "title": "Issue Type",
-                    "description": "The type of issue.",
+                    "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                     "type": [
                       "object",
                       "null"
@@ -24275,6 +24497,7 @@
                           "enum": [
                             "text",
                             "single_select",
+                            "multi_select",
                             "number",
                             "date"
                           ]
@@ -24325,6 +24548,36 @@
                             "name",
                             "color"
                           ]
+                        },
+                        "multi_select_options": {
+                          "description": "Details about the selected options",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "description": "Unique identifier for the option.",
+                                "type": "integer",
+                                "format": "int64"
+                              },
+                              "name": {
+                                "description": "The name of the option",
+                                "type": "string"
+                              },
+                              "color": {
+                                "description": "The color of the option",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "color"
+                            ]
+                          }
                         }
                       },
                       "required": [
@@ -25675,7 +25928,7 @@
                 },
                 "type": {
                   "title": "Issue Type",
-                  "description": "The type of issue.",
+                  "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                   "type": [
                     "object",
                     "null"
@@ -27501,6 +27754,7 @@
                         "enum": [
                           "text",
                           "single_select",
+                          "multi_select",
                           "number",
                           "date"
                         ]
@@ -27551,6 +27805,36 @@
                           "name",
                           "color"
                         ]
+                      },
+                      "multi_select_options": {
+                        "description": "Details about the selected options",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Unique identifier for the option.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "name": {
+                              "description": "The name of the option",
+                              "type": "string"
+                            },
+                            "color": {
+                              "description": "The color of the option",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "color"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -28589,7 +28873,7 @@
                 },
                 "type": {
                   "title": "Issue Type",
-                  "description": "The type of issue.",
+                  "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                   "type": [
                     "object",
                     "null"
@@ -30415,6 +30699,7 @@
                         "enum": [
                           "text",
                           "single_select",
+                          "multi_select",
                           "number",
                           "date"
                         ]
@@ -30465,6 +30750,36 @@
                           "name",
                           "color"
                         ]
+                      },
+                      "multi_select_options": {
+                        "description": "Details about the selected options",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Unique identifier for the option.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "name": {
+                              "description": "The name of the option",
+                              "type": "string"
+                            },
+                            "color": {
+                              "description": "The color of the option",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "color"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -30648,11 +30963,11 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "created",
             "enum": [
               "created",
               "updated"
-            ],
-            "default": "created"
+            ]
           }
         },
         {
@@ -30674,8 +30989,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "type": "string",
-            "format": "date-time"
+            "type": "string"
           }
         },
         {
@@ -31481,8 +31795,7 @@
           "in": "path",
           "required": true,
           "schema": {
-            "type": "integer",
-            "format": "int64"
+            "type": "integer"
           }
         }
       ],
@@ -32263,8 +32576,7 @@
           "in": "path",
           "required": true,
           "schema": {
-            "type": "integer",
-            "format": "int64"
+            "type": "integer"
           }
         }
       ],
@@ -33055,8 +33367,7 @@
           "in": "path",
           "required": true,
           "schema": {
-            "type": "integer",
-            "format": "int64"
+            "type": "integer"
           }
         }
       ],
@@ -33132,8 +33443,7 @@
           "in": "path",
           "required": true,
           "schema": {
-            "type": "integer",
-            "format": "int64"
+            "type": "integer"
           }
         }
       ],
@@ -33948,8 +34258,7 @@
           "in": "path",
           "required": true,
           "schema": {
-            "type": "integer",
-            "format": "int64"
+            "type": "integer"
           }
         }
       ],
@@ -34051,8 +34360,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "type": "string",
-            "format": "date-time"
+            "type": "string"
           }
         },
         {
@@ -36799,7 +37107,7 @@
                           },
                           "type": {
                             "title": "Issue Type",
-                            "description": "The type of issue.",
+                            "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                             "type": [
                               "object",
                               "null"
@@ -38625,6 +38933,7 @@
                                   "enum": [
                                     "text",
                                     "single_select",
+                                    "multi_select",
                                     "number",
                                     "date"
                                   ]
@@ -38675,6 +38984,36 @@
                                     "name",
                                     "color"
                                   ]
+                                },
+                                "multi_select_options": {
+                                  "description": "Details about the selected options",
+                                  "type": [
+                                    "array",
+                                    "null"
+                                  ],
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "description": "Unique identifier for the option.",
+                                        "type": "integer",
+                                        "format": "int64"
+                                      },
+                                      "name": {
+                                        "description": "The name of the option",
+                                        "type": "string"
+                                      },
+                                      "color": {
+                                        "description": "The color of the option",
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "name",
+                                      "color"
+                                    ]
+                                  }
                                 }
                               },
                               "required": [
@@ -41043,7 +41382,7 @@
                         },
                         "type": {
                           "title": "Issue Type",
-                          "description": "The type of issue.",
+                          "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                           "type": [
                             "object",
                             "null"
@@ -42869,6 +43208,7 @@
                                 "enum": [
                                   "text",
                                   "single_select",
+                                  "multi_select",
                                   "number",
                                   "date"
                                 ]
@@ -42919,6 +43259,36 @@
                                   "name",
                                   "color"
                                 ]
+                              },
+                              "multi_select_options": {
+                                "description": "Details about the selected options",
+                                "type": [
+                                  "array",
+                                  "null"
+                                ],
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "description": "Unique identifier for the option.",
+                                      "type": "integer",
+                                      "format": "int64"
+                                    },
+                                    "name": {
+                                      "description": "The name of the option",
+                                      "type": "string"
+                                    },
+                                    "color": {
+                                      "description": "The color of the option",
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "name",
+                                    "color"
+                                  ]
+                                }
                               }
                             },
                             "required": [
@@ -53452,7 +53822,7 @@
                   },
                   "type": {
                     "title": "Issue Type",
-                    "description": "The type of issue.",
+                    "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                     "type": [
                       "object",
                       "null"
@@ -55278,6 +55648,7 @@
                           "enum": [
                             "text",
                             "single_select",
+                            "multi_select",
                             "number",
                             "date"
                           ]
@@ -55328,6 +55699,36 @@
                             "name",
                             "color"
                           ]
+                        },
+                        "multi_select_options": {
+                          "description": "Details about the selected options",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "description": "Unique identifier for the option.",
+                                "type": "integer",
+                                "format": "int64"
+                              },
+                              "name": {
+                                "description": "The name of the option",
+                                "type": "string"
+                              },
+                              "color": {
+                                "description": "The color of the option",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "color"
+                            ]
+                          }
                         }
                       },
                       "required": [
@@ -56375,7 +56776,7 @@
                 },
                 "type": {
                   "title": "Issue Type",
-                  "description": "The type of issue.",
+                  "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                   "type": [
                     "object",
                     "null"
@@ -58201,6 +58602,7 @@
                         "enum": [
                           "text",
                           "single_select",
+                          "multi_select",
                           "number",
                           "date"
                         ]
@@ -58251,6 +58653,36 @@
                           "name",
                           "color"
                         ]
+                      },
+                      "multi_select_options": {
+                        "description": "Details about the selected options",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Unique identifier for the option.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "name": {
+                              "description": "The name of the option",
+                              "type": "string"
+                            },
+                            "color": {
+                              "description": "The color of the option",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "color"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -59304,7 +59736,7 @@
                 },
                 "type": {
                   "title": "Issue Type",
-                  "description": "The type of issue.",
+                  "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                   "type": [
                     "object",
                     "null"
@@ -61130,6 +61562,7 @@
                         "enum": [
                           "text",
                           "single_select",
+                          "multi_select",
                           "number",
                           "date"
                         ]
@@ -61180,6 +61613,36 @@
                           "name",
                           "color"
                         ]
+                      },
+                      "multi_select_options": {
+                        "description": "Details about the selected options",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Unique identifier for the option.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "name": {
+                              "description": "The name of the option",
+                              "type": "string"
+                            },
+                            "color": {
+                              "description": "The color of the option",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "color"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -62269,7 +62732,7 @@
                   },
                   "type": {
                     "title": "Issue Type",
-                    "description": "The type of issue.",
+                    "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                     "type": [
                       "object",
                       "null"
@@ -64095,6 +64558,7 @@
                           "enum": [
                             "text",
                             "single_select",
+                            "multi_select",
                             "number",
                             "date"
                           ]
@@ -64145,6 +64609,36 @@
                             "name",
                             "color"
                           ]
+                        },
+                        "multi_select_options": {
+                          "description": "Details about the selected options",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "description": "Unique identifier for the option.",
+                                "type": "integer",
+                                "format": "int64"
+                              },
+                              "name": {
+                                "description": "The name of the option",
+                                "type": "string"
+                              },
+                              "color": {
+                                "description": "The color of the option",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "color"
+                            ]
+                          }
                         }
                       },
                       "required": [
@@ -64315,6 +64809,24 @@
                 "node_id": "IFD_DUEDATE",
                 "data_type": "date",
                 "value": "2025-12-25"
+              },
+              {
+                "issue_field_id": 5,
+                "node_id": "IFMS_LABELS",
+                "data_type": "multi_select",
+                "value": "Frontend,Backend",
+                "multi_select_options": [
+                  {
+                    "id": 1,
+                    "name": "Frontend",
+                    "color": "blue"
+                  },
+                  {
+                    "id": 2,
+                    "name": "Backend",
+                    "color": "green"
+                  }
+                ]
               }
             ],
             "schema": {
@@ -64338,6 +64850,7 @@
                     "enum": [
                       "text",
                       "single_select",
+                      "multi_select",
                       "number",
                       "date"
                     ]
@@ -64388,6 +64901,36 @@
                       "name",
                       "color"
                     ]
+                  },
+                  "multi_select_options": {
+                    "description": "Details about the selected options",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "description": "Unique identifier for the option.",
+                          "type": "integer",
+                          "format": "int64"
+                        },
+                        "name": {
+                          "description": "The name of the option",
+                          "type": "string"
+                        },
+                        "color": {
+                          "description": "The color of the option",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "color"
+                      ]
+                    }
                   }
                 },
                 "required": [
@@ -64481,9 +65024,9 @@
               "isRequired": true
             },
             {
-              "type": "string or number",
+              "type": "string or number or array",
               "name": "value",
-              "description": "<p>The value to set for the field. The type depends on the field's data type:</p>\n<ul>\n<li>For text fields: provide a string value</li>\n<li>For single_select fields: provide the option name as a string (must match an existing option)</li>\n<li>For number fields: provide a numeric value</li>\n<li>For date fields: provide an ISO 8601 date string</li>\n</ul>",
+              "description": "<p>The value to set for the field. The type depends on the field's data type:</p>\n<ul>\n<li>For text fields: provide a string value</li>\n<li>For single_select fields: provide the option name as a string (must match an existing option)</li>\n<li>For number fields: provide a numeric value</li>\n<li>For multi_select fields: provide an array of option names (must match existing options)</li>\n<li>For date fields: provide an ISO 8601 date string</li>\n</ul>",
               "isRequired": true
             }
           ]
@@ -64551,6 +65094,24 @@
                 "node_id": "IFD_DUEDATE",
                 "data_type": "date",
                 "value": "2025-12-25"
+              },
+              {
+                "issue_field_id": 5,
+                "node_id": "IFMS_LABELS",
+                "data_type": "multi_select",
+                "value": "Frontend,Backend",
+                "multi_select_options": [
+                  {
+                    "id": 1,
+                    "name": "Frontend",
+                    "color": "blue"
+                  },
+                  {
+                    "id": 2,
+                    "name": "Backend",
+                    "color": "green"
+                  }
+                ]
               }
             ],
             "schema": {
@@ -64575,6 +65136,7 @@
                     "enum": [
                       "text",
                       "single_select",
+                      "multi_select",
                       "number",
                       "date"
                     ]
@@ -64625,6 +65187,36 @@
                       "name",
                       "color"
                     ]
+                  },
+                  "multi_select_options": {
+                    "description": "Details about the selected options",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "description": "Unique identifier for the option.",
+                          "type": "integer",
+                          "format": "int64"
+                        },
+                        "name": {
+                          "description": "The name of the option",
+                          "type": "string"
+                        },
+                        "color": {
+                          "description": "The color of the option",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "color"
+                      ]
+                    }
                   }
                 },
                 "required": [
@@ -64798,6 +65390,24 @@
                 "node_id": "IFD_DUEDATE",
                 "data_type": "date",
                 "value": "2025-12-25"
+              },
+              {
+                "issue_field_id": 5,
+                "node_id": "IFMS_LABELS",
+                "data_type": "multi_select",
+                "value": "Frontend,Backend",
+                "multi_select_options": [
+                  {
+                    "id": 1,
+                    "name": "Frontend",
+                    "color": "blue"
+                  },
+                  {
+                    "id": 2,
+                    "name": "Backend",
+                    "color": "green"
+                  }
+                ]
               }
             ],
             "schema": {
@@ -64822,6 +65432,7 @@
                     "enum": [
                       "text",
                       "single_select",
+                      "multi_select",
                       "number",
                       "date"
                     ]
@@ -64872,6 +65483,36 @@
                       "name",
                       "color"
                     ]
+                  },
+                  "multi_select_options": {
+                    "description": "Details about the selected options",
+                    "type": [
+                      "array",
+                      "null"
+                    ],
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "description": "Unique identifier for the option.",
+                          "type": "integer",
+                          "format": "int64"
+                        },
+                        "name": {
+                          "description": "The name of the option",
+                          "type": "string"
+                        },
+                        "color": {
+                          "description": "The color of the option",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "name",
+                        "color"
+                      ]
+                    }
                   }
                 },
                 "required": [
@@ -66701,12 +67342,12 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "open",
             "enum": [
               "open",
               "closed",
               "all"
-            ],
-            "default": "open"
+            ]
           }
         },
         {
@@ -66716,11 +67357,11 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "due_on",
             "enum": [
               "due_on",
               "completeness"
-            ],
-            "default": "due_on"
+            ]
           }
         },
         {
@@ -66730,11 +67371,11 @@
           "required": false,
           "schema": {
             "type": "string",
+            "default": "asc",
             "enum": [
               "asc",
               "desc"
-            ],
-            "default": "asc"
+            ]
           }
         },
         {
@@ -69153,7 +69794,7 @@
                 },
                 "type": {
                   "title": "Issue Type",
-                  "description": "The type of issue.",
+                  "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                   "type": [
                     "object",
                     "null"
@@ -70979,6 +71620,7 @@
                         "enum": [
                           "text",
                           "single_select",
+                          "multi_select",
                           "number",
                           "date"
                         ]
@@ -71029,6 +71671,36 @@
                           "name",
                           "color"
                         ]
+                      },
+                      "multi_select_options": {
+                        "description": "Details about the selected options",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Unique identifier for the option.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "name": {
+                              "description": "The name of the option",
+                              "type": "string"
+                            },
+                            "color": {
+                              "description": "The color of the option",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "color"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -72075,7 +72747,7 @@
                 },
                 "type": {
                   "title": "Issue Type",
-                  "description": "The type of issue.",
+                  "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                   "type": [
                     "object",
                     "null"
@@ -73901,6 +74573,7 @@
                         "enum": [
                           "text",
                           "single_select",
+                          "multi_select",
                           "number",
                           "date"
                         ]
@@ -73951,6 +74624,36 @@
                           "name",
                           "color"
                         ]
+                      },
+                      "multi_select_options": {
+                        "description": "Details about the selected options",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Unique identifier for the option.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "name": {
+                              "description": "The name of the option",
+                              "type": "string"
+                            },
+                            "color": {
+                              "description": "The color of the option",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "color"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -75023,7 +75726,7 @@
                   },
                   "type": {
                     "title": "Issue Type",
-                    "description": "The type of issue.",
+                    "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                     "type": [
                       "object",
                       "null"
@@ -76849,6 +77552,7 @@
                           "enum": [
                             "text",
                             "single_select",
+                            "multi_select",
                             "number",
                             "date"
                           ]
@@ -76899,6 +77603,36 @@
                             "name",
                             "color"
                           ]
+                        },
+                        "multi_select_options": {
+                          "description": "Details about the selected options",
+                          "type": [
+                            "array",
+                            "null"
+                          ],
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "description": "Unique identifier for the option.",
+                                "type": "integer",
+                                "format": "int64"
+                              },
+                              "name": {
+                                "description": "The name of the option",
+                                "type": "string"
+                              },
+                              "color": {
+                                "description": "The color of the option",
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "color"
+                            ]
+                          }
                         }
                       },
                       "required": [
@@ -77947,7 +78681,7 @@
                 },
                 "type": {
                   "title": "Issue Type",
-                  "description": "The type of issue.",
+                  "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                   "type": [
                     "object",
                     "null"
@@ -79773,6 +80507,7 @@
                         "enum": [
                           "text",
                           "single_select",
+                          "multi_select",
                           "number",
                           "date"
                         ]
@@ -79823,6 +80558,36 @@
                           "name",
                           "color"
                         ]
+                      },
+                      "multi_select_options": {
+                        "description": "Details about the selected options",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Unique identifier for the option.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "name": {
+                              "description": "The name of the option",
+                              "type": "string"
+                            },
+                            "color": {
+                              "description": "The color of the option",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "color"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -80883,7 +81648,7 @@
                 },
                 "type": {
                   "title": "Issue Type",
-                  "description": "The type of issue.",
+                  "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                   "type": [
                     "object",
                     "null"
@@ -82709,6 +83474,7 @@
                         "enum": [
                           "text",
                           "single_select",
+                          "multi_select",
                           "number",
                           "date"
                         ]
@@ -82759,6 +83525,36 @@
                           "name",
                           "color"
                         ]
+                      },
+                      "multi_select_options": {
+                        "description": "Details about the selected options",
+                        "type": [
+                          "array",
+                          "null"
+                        ],
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Unique identifier for the option.",
+                              "type": "integer",
+                              "format": "int64"
+                            },
+                            "name": {
+                              "description": "The name of the option",
+                              "type": "string"
+                            },
+                            "color": {
+                              "description": "The color of the option",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "color"
+                          ]
+                        }
                       }
                     },
                     "required": [
@@ -91621,7 +92417,7 @@
                               },
                               "type": {
                                 "title": "Issue Type",
-                                "description": "The type of issue.",
+                                "description": "The type assigned to the issue. This is only present for issues in repositories where issue types are supported.",
                                 "type": [
                                   "object",
                                   "null"
@@ -93447,6 +94243,7 @@
                                       "enum": [
                                         "text",
                                         "single_select",
+                                        "multi_select",
                                         "number",
                                         "date"
                                       ]
@@ -93497,6 +94294,36 @@
                                         "name",
                                         "color"
                                       ]
+                                    },
+                                    "multi_select_options": {
+                                      "description": "Details about the selected options",
+                                      "type": [
+                                        "array",
+                                        "null"
+                                      ],
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "id": {
+                                            "description": "Unique identifier for the option.",
+                                            "type": "integer",
+                                            "format": "int64"
+                                          },
+                                          "name": {
+                                            "description": "The name of the option",
+                                            "type": "string"
+                                          },
+                                          "color": {
+                                            "description": "The color of the option",
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "id",
+                                          "name",
+                                          "color"
+                                        ]
+                                      }
                                     }
                                   },
                                   "required": [
