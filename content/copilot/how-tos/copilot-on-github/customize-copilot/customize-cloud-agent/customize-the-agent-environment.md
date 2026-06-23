@@ -32,7 +32,7 @@ You can customize {% data variables.product.prodname_copilot_short %}'s developm
 In addition, you can:
 
 * [AUTOTITLE](/copilot/how-tos/copilot-on-github/customize-copilot/customize-cloud-agent/configure-secrets-and-variables)
-* [Disable or customize the agent's firewall](/copilot/customizing-copilot/customizing-or-disabling-the-firewall-for-copilot-cloud-agent).
+* [AUTOTITLE](/copilot/how-tos/use-copilot-agents/cloud-agent/customize-the-agent-firewall).
 
 > [!NOTE]
 > Organization owners can configure the default runner type for {% data variables.copilot.copilot_cloud_agent %} across all repositories in their organization, and choose whether repositories are allowed to override this default. For more information, see [AUTOTITLE](/copilot/how-tos/administer-copilot/manage-for-organization/configure-runner-for-coding-agent).
@@ -98,7 +98,7 @@ Your `copilot-setup-steps.yml` file will automatically be run as a normal {% dat
 
 Once you have merged the yml file into your default branch, you can manually run the workflow from the repository's **Actions** tab at any time to check that everything works as expected. For more information, see [AUTOTITLE](/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/manually-running-a-workflow).
 
-When {% data variables.product.prodname_copilot_short %} starts work, your setup steps will be run, and updates will show in the session logs. See [AUTOTITLE](/copilot/how-tos/use-copilot-agents/cloud-agent/track-copilot-sessions).
+When {% data variables.product.prodname_copilot_short %} starts work, your setup steps will be run, and updates will show in the session logs. See [AUTOTITLE](/copilot/how-tos/copilot-on-github/use-copilot-agents/manage-and-track-agents).
 
 If any setup step fails by returning a non-zero exit code, {% data variables.product.prodname_copilot_short %} will skip the remaining setup steps and begin working with the current state of its development environment.
 

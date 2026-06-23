@@ -99,10 +99,10 @@ For most package managers, you should define a value that will match the depende
 | Dependency types | Supported by package managers | Allow updates |
 |------------------|-------------------------------|--------|
 | `direct` | All | All explicitly defined dependencies. |
-| `indirect` | `bundler`, `pip`, `composer`, `cargo`, `gomod`{% ifversion dependabot-uv-support %}, `uv`{% endif %} | Dependencies of direct dependencies (also known as sub-dependencies, or transitive dependencies).|
-| `all` | All | All explicitly defined dependencies. For `bundler`, `pip`, `composer`, `cargo`, `gomod`{% ifversion dependabot-uv-support %}, `uv`{% endif %}, also the dependencies of direct dependencies.|
-| `production` | `bundler`, `composer`, `mix`, `maven`, `npm`, `pip`{% ifversion dependabot-uv-support %}, `uv`{% endif %} (not all managers) | Only to dependencies defined by the package manager as production dependencies. |
-| `development`| `bundler`, `composer`, `mix`, `maven`, `npm`, `pip`{% ifversion dependabot-uv-support %}, `uv`{% endif %} (not all managers) | Only to dependencies defined by the package manager as development dependencies. |
+| `indirect` | `bundler`, `pip`, `composer`, `cargo`, `gomod`, `uv` | Dependencies of direct dependencies (also known as sub-dependencies, or transitive dependencies).|
+| `all` | All | All explicitly defined dependencies. For `bundler`, `pip`, `composer`, `cargo`, `gomod`, `uv`, also the dependencies of direct dependencies.|
+| `production` | `bundler`, `composer`, `mix`, `maven`, `npm`, `pip`, `uv` (not all managers) | Only to dependencies defined by the package manager as production dependencies. |
+| `development`| `bundler`, `composer`, `mix`, `maven`, `npm`, `pip`, `uv` (not all managers) | Only to dependencies defined by the package manager as development dependencies. |
 
 {% ifversion dependabot-allow-update-types %}
 
@@ -170,11 +170,7 @@ When `commit-message` is defined:
 
 ### `prefix-development`
 
-{% ifversion dependabot-uv-support %}
 Supported by: `bundler`, `composer`, `mix`, `maven`, `npm`, `pip`, and `uv`.
-{% else %}
-Supported by: `bundler`, `composer`, `mix`, `maven`, `npm`, and `pip`.
-{% endif %}
 
 * Used only for commit messages that update dependencies in the Development dependency group.
 * Otherwise, the parameter behaves exactly as the `prefix` parameter.
@@ -218,42 +214,63 @@ You can specify the duration of the cooldown using the options below.
 | `include` | List of dependencies to **apply cooldown** (up to **150 items**). Supports wildcards (`*`). |
 | `exclude` | List of dependencies **excluded from cooldown** (up to **150 items**). Supports wildcards (`*`). |
 
-The table below shows the package managers for which SemVer is supported.
+The table below shows the package managers that support `cooldown`. The `default-days` option is supported for all package managers listed, while `semver-major-days`, `semver-minor-days`, and `semver-patch-days` are supported only where indicated.
 
-| Package manager        | SemVer supported |
-|-----------------------|------------------|
+| Package manager        | Default days supported | SemVer-bump days supported |
+|-----------------------|:----------------------:|:--------------------------:|
 | {% ifversion dependabot-bazel-support %} |
-| Bazel               | {% octicon "x" aria-label="Not supported" %}              |
+| Bazel               | {% octicon "check" aria-label="Supported" %}              | {% octicon "x" aria-label="Not supported" %} |
 | {% endif %} |
-| Bundler               | {% octicon "check" aria-label="Supported" %}              |
-| Bun                   | {% octicon "check" aria-label="Supported" %}              |
-| Cargo                 | {% octicon "check" aria-label="Supported" %}              |
-| Composer              | {% octicon "check" aria-label="Supported" %}              |
-| Devcontainers         | {% octicon "x" aria-label="Not supported" %}              |
-| Docker                | {% octicon "x" aria-label="Not supported" %}              |
-| Docker Compose        | {% octicon "x" aria-label="Not supported" %}              |
-| Dotnet SDK            | {% octicon "check" aria-label="Supported" %}              |
-| Elm                   | {% octicon "check" aria-label="Supported" %}              |
-| {% data variables.product.prodname_actions %} | {% octicon "x" aria-label="Not supported" %} |
-| Gitsubmodule          | {% octicon "x" aria-label="Not supported" %}              |
-| Gomod (Go Modules)    | {% octicon "check" aria-label="Supported" %}              |
-| Gradle                | {% octicon "check" aria-label="Supported" %}              |
-| Helm                  | {% octicon "x" aria-label="Not supported" %}              |
-| Hex (Hex)             | {% octicon "check" aria-label="Supported" %}              |
+| Bundler               | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| Bun                   | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| Cargo                 | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| Composer              | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| {% ifversion dependabot-conda-support %} |
+| Conda                 | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| {% endif %} |
+| {% ifversion dependabot-deno-support %} |
+| Deno                  | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| {% endif %} |
+| Devcontainers         | {% octicon "check" aria-label="Supported" %}              | {% octicon "x" aria-label="Not supported" %} |
+| Docker                | {% octicon "check" aria-label="Supported" %}              | {% octicon "x" aria-label="Not supported" %} |
+| Docker Compose        | {% octicon "check" aria-label="Supported" %}              | {% octicon "x" aria-label="Not supported" %} |
+| Dotnet SDK            | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| Elm                   | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| {% data variables.product.prodname_actions %} | {% octicon "check" aria-label="Supported" %} | {% octicon "x" aria-label="Not supported" %} |
+| Gitsubmodule          | {% octicon "check" aria-label="Supported" %}              | {% octicon "x" aria-label="Not supported" %} |
+| Gomod (Go Modules)    | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| Gradle                | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| Helm                  | {% octicon "check" aria-label="Supported" %}              | {% octicon "x" aria-label="Not supported" %} |
+| Hex (Hex)             | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
 | {% ifversion dependabot-julia-support %} |
-| Julia                 | {% octicon "check" aria-label="Supported" %}              |
+| Julia                 | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
 | {% endif %} |
-| Maven                 | {% octicon "check" aria-label="Supported" %}              |
-| NPM and Yarn          | {% octicon "check" aria-label="Supported" %}              |
-| NuGet                 | {% octicon "check" aria-label="Supported" %}              |
+| Maven                 | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| {% ifversion dependabot-nix-support %} |
+| Nix flakes            | {% octicon "check" aria-label="Supported" %}              | {% octicon "x" aria-label="Not supported" %} |
+| {% endif %} |
+| NPM and Yarn          | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| NuGet                 | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
 | {% ifversion dependabot-opentofu-support %} |
-| OpenTofu              | {% octicon "check" aria-label="Supported" %}              |
+| OpenTofu              | {% octicon "check" aria-label="Supported" %}              | {% octicon "x" aria-label="Not supported" %} |
 | {% endif %} |
-| Pip                   | {% octicon "check" aria-label="Supported" %}              |
-| Pub                   | {% octicon "check" aria-label="Supported" %}              |
-| Swift                 | {% octicon "check" aria-label="Supported" %}              |
-| Terraform             | {% octicon "x" aria-label="Not supported" %}              |
-| UV                    | {% octicon "check" aria-label="Supported" %}              |
+| Pip                   | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| {% ifversion dependabot-pre-commit-support %} |
+| pre-commit            | {% octicon "check" aria-label="Supported" %}              | {% octicon "x" aria-label="Not supported" %} |
+| {% endif %} |
+| Pub                   | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| {% ifversion dependabot-rust-toolchain-support %} |
+| Rust toolchain        | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| {% endif %} |
+| {% ifversion dependabot-sbt-support %} |
+| sbt                   | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| {% endif %} |
+| Swift                 | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| Terraform             | {% octicon "check" aria-label="Supported" %}              | {% octicon "x" aria-label="Not supported" %} |
+| UV                    | {% octicon "check" aria-label="Supported" %}              | {% octicon "check" aria-label="Supported" %} |
+| {% ifversion dependabot-vcpkg-support %} |
+| vcpkg                 | {% octicon "check" aria-label="Supported" %}              | {% octicon "x" aria-label="Not supported" %} |
+| {% endif %} |
 
 > [!NOTE]
 >
@@ -531,20 +548,19 @@ Package manager | YAML value      | Supported versions |
 | {% ifversion dependabot-bazel-support %} |
 | Bazel         | `bazel`          | v7, v8, v9               |
 | {% endif %} |
-| {% ifversion dependabot-bun-support %} |
 | Bun | `bun`         | >=v1.2.5              |
-| {% endif %} |
 | Bundler | `bundler` | v2 |
 | Cargo       | `cargo`          | v1               |
 | Composer       | `composer`       | v2         |
 | {% ifversion dependabot-conda-support %} |
 | Conda         | `conda`          | Not applicable               |
 | {% endif %} |
+| {% ifversion dependabot-deno-support %} |
+| Deno         | `deno`          | >=v2               |
+| {% endif %} |
 | Dev containers | `devcontainers`         | Not applicable               |
 | Docker         | `docker`         | v1               |
-| {% ifversion dependabot-docker-compose-support %} |
 | Docker Compose | `docker-compose`         | v2, v3               |
-| {% endif %} |
 | .NET SDK       | `dotnet-sdk`         | >=.NET Core 3.1           |
 | {% ifversion dependabot-helm-support %} |
 | Helm Charts            | `helm`            | v3               |
@@ -579,11 +595,12 @@ Package manager | YAML value      | Supported versions |
 | {% ifversion dependabot-rust-toolchain-support %} |
 | Rust toolchain | `rust-toolchain` | Not applicable   |
 | {% endif %} |
+| {% ifversion dependabot-sbt-support %} |
+| sbt          | `sbt`            | Not applicable   |
+| {% endif %} |
 | Swift   | `swift`      | v5  |
 | Terraform    | `terraform`      | >= 0.13, <= 1.10.x  |
-| {% ifversion dependabot-uv-support %} |
 | uv           | `uv`             | v0 |
-| {% endif %} |
 | {% ifversion dependabot-vcpkg-support %} |
 | vcpkg       | `vcpkg`          | Not applicable   |
 | {% endif %} |
@@ -849,11 +866,7 @@ Supported values: `true` or `false`
 
 ## `versioning-strategy` {% octicon "versions" aria-label="Version updates" height="24" %} {% octicon "shield-check" aria-label="Security updates" height="24" %}
 
-{% ifversion dependabot-uv-support %}
 Supported by: `bundler`, `cargo`, `composer`, `mix`, `npm`, `pip`, `pub`, and `uv`
-{% else %}
-Supported by: `bundler`, `cargo`, `composer`, `mix`, `npm`, `pip`, and `pub`
-{% endif %}
 
 Define how {% data variables.product.prodname_dependabot %} should edit manifest files. For examples, see [AUTOTITLE](/code-security/dependabot/dependabot-version-updates/controlling-dependencies-updated#defining-a-versioning-strategy).
 
